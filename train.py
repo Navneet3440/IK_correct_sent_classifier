@@ -22,7 +22,8 @@ def run():
 
     df_train = df_train.reset_index(drop=True)
     df_valid = df_valid.reset_index(drop=True)
-    # print(f"Shape of train datframe:{df_train.shape} and Shape of validation dataframe:{df_valid.shape}")
+    print("Shape of train datframe:",df_train.shape)
+    print("Shape of validation dataframe:",df_valid.shape)
 
     train_dataset = dataset.BERTDataset(
         sent=df_train.sentences.values, target=df_train.label.values
@@ -75,8 +76,9 @@ def run():
         outputs, targets, epoch_eval_loss = engine.eval_fn(valid_data_loader, model, device)
         outputs = np.array(outputs) >= 0.5
         accuracy = metrics.accuracy_score(targets, outputs)
-        print(f"Train loss = {epoch_train_loss} Validation Loss = {epoch_eval_loss}")
-        print(f"Accuracy Score = {accuracy}")
+        print("Train loss = ", epoch_train_loss)
+        print("Validation Loss = ", epoch_eval_loss)
+        print("Accuracy Score =", accuracy)
         if accuracy > best_accuracy and epoch_eval_loss < best_eval_loss:
             print("Saving Model state")
             torch.save(model.state_dict(), config.MODEL_PATH)
