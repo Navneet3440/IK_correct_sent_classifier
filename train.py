@@ -22,7 +22,7 @@ def run():
 
     df_train = df_train.reset_index(drop=True)
     df_valid = df_valid.reset_index(drop=True)
-    print(f"Shape of train datframe:{df_train.shape} and Shape of validation dataframe:{df_valid}")
+    print(f"Shape of train datframe:{df_train.shape} and Shape of validation dataframe:{df_valid.shape}")
 
     train_dataset = dataset.BERTDataset(
         sent=df_train.sentences.values, target=df_train.label.values
