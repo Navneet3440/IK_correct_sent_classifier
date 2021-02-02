@@ -74,7 +74,7 @@ def run():
         outputs, targets, epoch_eval_loss = engine.eval_fn(valid_data_loader, model, device)
         outputs = np.array(outputs) >= 0.5
         accuracy = metrics.accuracy_score(targets, outputs)
-        print(f"Train loss = {epoch_train_loss}, Validation Loss = {epoch_eval_loss} ")
+        print(f"Train loss = {epoch_train_loss}, Validation Loss = {epoch_eval_loss}")
         print(f"Accuracy Score = {accuracy}")
         if accuracy > best_accuracy and epoch_eval_loss < best_eval_loss:
             print("Saving Model state")
