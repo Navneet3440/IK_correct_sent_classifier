@@ -19,9 +19,10 @@ class BERTDataset:
         inputs = self.tokenizer.encode_plus(
             sent,
             None,
+            truncation=True,
             add_special_tokens=True,
             max_length=self.max_len,
-            pad_to_max_length=True,
+            padding='max_length',
         )
 
         ids = inputs["input_ids"]
