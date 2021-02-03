@@ -11,7 +11,7 @@ class BERTBaseUncased(nn.Module):
         self.out = nn.Linear(config.LINEAR_INPUT_SIZE, 1)
 
     def forward(self, ids, mask, token_type_ids):
-        _, o2 = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids)
+        _, o2 = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids, return_dict=False)
         bo = self.bert_drop(o2)
         output = self.out(bo)
         return output
