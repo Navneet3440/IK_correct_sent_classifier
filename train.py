@@ -84,6 +84,9 @@ def run():
             torch.save(model.state_dict(), config.MODEL_PATH)
             best_accuracy = accuracy
             best_eval_loss = epoch_eval_loss
+        else:
+            print("Saving model in dump folder")
+            torch.save(model.state_dict(), config.MODEL_PATH_2 + f"{epoch}.bin")
 
 
 if __name__ == "__main__":
