@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 dataframe_india_kanoon = pd.read_csv('IndianKanoon-Manually-Reviewed-Dataset_edited_3.csv')
-for model_desc in ['bert-large-uncased_128_ds6_bvl']:
+for model_desc in ['bert-large-uncased_128_ds6_7']:
     model_column_name = 'pred_'+'_'.join([k for i in model_desc.split('_') for k in i.split('-')])
     if model_column_name in dataframe_india_kanoon.columns.tolist():
         dataframe_india_kanoon.drop(columns=[model_column_name], inplace=True)
@@ -22,7 +22,7 @@ for model_desc in ['bert-large-uncased_128_ds6_bvl']:
 #     EPOCHS = 10
     BERT_PATH = model_desc.split('_')[0]
     print(BERT_PATH)
-    MODEL_PATH = f'./../{model_desc}.bin'
+    MODEL_PATH = f'./{model_desc}.bin'
     if 'cased' in [k for i in model_desc.split('_') for k in i.split('-')]:
         print('Cased tokenization')
         TOKENIZER = transformers.BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=False)
