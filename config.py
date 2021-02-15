@@ -6,9 +6,10 @@ TRAIN_BATCH_SIZE = 8
 VALID_BATCH_SIZE = 4
 EPOCHS = 20
 ACC_CUTOFF = 0.75
+TRAINING_MODE = 'ba'
 BERT_PATH = "bert-large-cased"
 DATASET_FILE_COUNT = 8
-MODEL_PATH = f"./inputs/{BERT_PATH}_{MAX_LEN}_ds{DATASET_FILE_COUNT}_bvl.bin"
+MODEL_PATH = f"./inputs/{BERT_PATH}_{MAX_LEN}_ds{DATASET_FILE_COUNT}_{TRAINING_MODE}.bin"
 MODEL_PATH_2 = f"./inputs/dump/{BERT_PATH}_{MAX_LEN}_ds{DATASET_FILE_COUNT}_"
 TRAINING_FILE = f"./inputs/final_training_data_{DATASET_FILE_COUNT}.csv"
 if 'cased' in BERT_PATH.split('-'):

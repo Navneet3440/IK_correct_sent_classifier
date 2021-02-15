@@ -74,11 +74,13 @@ def run():
     for epoch in range(config.EPOCHS):
         epoch_train_loss = engine.train_fn(train_data_loader, model, optimizer, device, scheduler)
         outputs, targets, epoch_eval_loss = engine.eval_fn(valid_data_loader, model, device)
-        outputs = np.array(outputs) >= congig.ACC_CUTOFF
+        outputs = np.array(outputs) >= config.ACC_CUTOFF
         accuracy = metrics.accuracy_score(targets, outputs)
         print("Train loss = ", epoch_train_loss)
         print("Validation Loss = ", epoch_eval_loss)
         print("Accuracy Score =", accuracy)
+        if config.TRAINING_MODE == 'ba':
+            best_eval_loss = np.inf
         if accuracy > best_accuracy and epoch_eval_loss < best_eval_loss:
             print("Saving Model state")
             torch.save(model.state_dict(), config.MODEL_PATH)

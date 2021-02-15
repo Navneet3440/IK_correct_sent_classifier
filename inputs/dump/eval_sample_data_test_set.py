@@ -9,7 +9,7 @@ CSV_FILE_NAME = 'removed_training_line_dataset_1095k.csv'
 BREAK_AT = 5000
 
 dataframe_india_kanoon = pd.read_csv(CSV_FILE_NAME)
-for model_desc in ['bert-large-cased_128_ds8_bvl']:
+for model_desc in ['bert-large-cased_128_ds8_ba']:
     model_column_name = 'pred_'+'_'.join([k for i in model_desc.split('_') for k in i.split('-')])
     if model_column_name in dataframe_india_kanoon.columns.tolist():
         dataframe_india_kanoon.drop(columns=[model_column_name], inplace=True)
@@ -93,9 +93,9 @@ for model_desc in ['bert-large-cased_128_ds8_bvl']:
     for i in range(dataframe_india_kanoon.shape[0]):
         dataframe_india_kanoon.at[i,f'pred_{model_desc}'] = predict_sent(dataframe_india_kanoon.at[i,'sentence'])
         if i % BREAK_AT == 0 and i != 0:
-            data_subset = dataframe_india_kanoon.iloc[write_from:i,:]
+            data_subset = dataframe_india_kanoon.iloc[0:i,:]
             data_subset.rename(axis=1,mapper=lambda x:x.replace('-','_'),inplace=True)
-            data_subset.to_csv(f'./{int(i/BREAK_AT)}_{CSV_FILE_NAME}',index=False)
+            data_subset.to_csv(f'./dump_{model_desc}_{CSV_FILE_NAME}',index=False)
             write_from = i
     dataframe_india_kanoon.rename(axis=1,mapper=lambda x:x.replace('-','_'),inplace=True)
     dataframe_india_kanoon.to_csv(f'./{CSV_FILE_NAME}',index=False)
