@@ -13,7 +13,7 @@ LINEAR_INPUT = 1024
 MAX_LEN = 128
 THRESHOLD_VALUE = 0.75
 TOKENIZER = transformers.BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=False)
-INFER_BATCH_SIZE = 8
+INFER_BATCH_SIZE = 4
 
 class BERT_CLASSIFIER(nn.Module):
         def __init__(self):
@@ -83,8 +83,8 @@ def infer_fn(data_loader, model, device):
 
 
 def run():
-    csv_file_loc = sys.args[1]
-    model_location = sys.args[2]
+    csv_file_loc = sys.argv[1]
+    model_location = sys.argv[2]
 
 
     if os.path.exists(csv_file_loc):
@@ -113,9 +113,12 @@ def run():
             model.load_state_dict(torch.load(model_location,map_location=torch.device("cpu")))
         model.to(device)
         model.eval()
-        sent_out , logit_score = infer_fn(inference_dataloader, model, device
+        sent_out , logit_score = infer_fn(inference_dataloader, model, device)
         logit_score = [i for b in logit_score for i in b]
         df_out = pd.DataFrame({'sentence':sent_out,'logit_score':logit_score})
-        df_out.to-csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc)), index =False)
+        df_out.to_csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc)), index =False)
     else:
         print(f"Model path at {model_location} dosen't exist")
+
+if __name__ == '__main__':
+    run()
