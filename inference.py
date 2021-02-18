@@ -88,7 +88,15 @@ def run():
 
 
     if os.path.exists(csv_file_loc):
-        df_inference = pd.read_csv(csv_file_loc)
+
+        if csv_file_loc.split('.')[-1] == 'csv':
+            df_inference = pd.read_csv(csv_file_loc)
+        elif csv_file_loc.split('.')[-1] == 'txt':
+            with open(csv_file_loc) as fl_fix:
+                fl_content = fl_fix.read()
+                df_inference = pd.DataFrame(fl_content.split('\n')[:-1],columns=['sentence'])
+        else:
+            print(f"Cannot recognize file type of {csv_file_loc} as either csv or txt")
 
         try:
             inference_dataset = BERTDataset(sent=df_inference.sentences.values)
@@ -116,7 +124,7 @@ def run():
         sent_out , logit_score = infer_fn(inference_dataloader, model, device)
         logit_score = [i for b in logit_score for i in b]
         df_out = pd.DataFrame({'sentence':sent_out,'logit_score':logit_score})
-        df_out.to_csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc)), index =False)
+        df_out.to_csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc).split('.')[0] + '.csv'), index =False)
     else:
         print(f"Model path at {model_location} dosen't exist")
 
