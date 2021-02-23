@@ -11,7 +11,7 @@ def loss_fn(outputs, targets):
 def train_fn(data_loader, model, optimizer, device, scheduler):
     model.train()
     epoch_train_loss = 0
-
+    optimizer.zero_grad()
     for bi, d in tqdm(enumerate(data_loader), total=len(data_loader)):
         ids = d["ids"]
         token_type_ids = d["token_type_ids"]
@@ -23,14 +23,15 @@ def train_fn(data_loader, model, optimizer, device, scheduler):
         mask = mask.to(device, dtype=torch.long)
         targets = targets.to(device, dtype=torch.float)
 
-        optimizer.zero_grad()
         outputs = model(ids=ids, mask=mask, token_type_ids=token_type_ids)
 
         loss = loss_fn(outputs, targets)
         epoch_train_loss += loss.item()
         loss.backward()
-        optimizer.step()
-        scheduler.step()
+        if (bi+1) % config.ACM_GRAD_NUM_BATCH == 0:
+            optimizer.step()
+            scheduler.step()
+            optimizer.zero_grad()
     return epoch_train_loss/len(data_loader)
 
 def eval_fn(data_loader, model, device):
