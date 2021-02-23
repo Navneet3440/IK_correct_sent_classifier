@@ -6,7 +6,7 @@ import pandas as pd
 import torch.nn as nn
 import numpy as np
 
-from model import BERTBaseUncased
+from model import BERT_CLASSIFIER
 from sklearn import model_selection
 from sklearn import metrics
 from transformers import AdamW
@@ -42,7 +42,7 @@ def run():
     )
 
     device = torch.device(config.DEVICE)
-    model = BERTBaseUncased()
+    model = BERT_CLASSIFIER()
     model.to(device)
 
     param_optimizer = list(model.named_parameters())

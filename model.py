@@ -3,9 +3,9 @@ import transformers
 import torch.nn as nn
 
 
-class BERTBaseUncased(nn.Module):
+class BERT_CLASSIFIER(nn.Module):
     def __init__(self):
-        super(BERTBaseUncased, self).__init__()
+        super(BERT_CLASSIFIER, self).__init__()
         self.bert = transformers.BertModel.from_pretrained(config.BERT_PATH)
         self.bert_drop = nn.Dropout(0.3)
         self.out = nn.Linear(config.LINEAR_INPUT_SIZE, 1)
