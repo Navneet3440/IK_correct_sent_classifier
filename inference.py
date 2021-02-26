@@ -13,7 +13,7 @@ LINEAR_INPUT = 1024
 MAX_LEN = 128
 THRESHOLD_VALUE = 0.75
 TOKENIZER = transformers.BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=False)
-INFER_BATCH_SIZE = 4
+INFER_BATCH_SIZE = 512
 
 class BERT_CLASSIFIER(nn.Module):
         def __init__(self):
@@ -104,7 +104,7 @@ def run():
             inference_dataset = BERTDataset(sent=df_inference.sentence.values)
 
         inference_dataloader = torch.utils.data.DataLoader(
-            inference_dataset, batch_size=INFER_BATCH_SIZE, num_workers=1
+            inference_dataset, batch_size=INFER_BATCH_SIZE, num_workers=4
         )   
     else:
         print(f"CSV file at {csv_file_loc} dosen't exist")

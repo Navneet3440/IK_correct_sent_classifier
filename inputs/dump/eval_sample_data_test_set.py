@@ -5,11 +5,11 @@ import pandas as pd
 import numpy as np
 import os
 
-CSV_FILE_NAME = 'removed_training_line_dataset_1095k.csv'
+CSV_FILE_NAME = 'sample_data_test_set.csv'
 BREAK_AT = 5000
 
 dataframe_india_kanoon = pd.read_csv(CSV_FILE_NAME)
-for model_desc in ['bert-large-cased_128_ds8_ba']:
+for model_desc in ['bert-large-cased_128_ds9_ba']:
     model_column_name = 'pred_'+'_'.join([k for i in model_desc.split('_') for k in i.split('-')])
     if model_column_name in dataframe_india_kanoon.columns.tolist():
         dataframe_india_kanoon.drop(columns=[model_column_name], inplace=True)

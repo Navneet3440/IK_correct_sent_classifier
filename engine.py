@@ -1,3 +1,4 @@
+import config
 import torch
 import torch.nn as nn
 from tqdm import tqdm
@@ -27,11 +28,13 @@ def train_fn(data_loader, model, optimizer, device, scheduler):
 
         loss = loss_fn(outputs, targets)
         epoch_train_loss += loss.item()
+        loss = loss/config.ACM_GRAD_NUM_BATCH
         loss.backward()
         if (bi+1) % config.ACM_GRAD_NUM_BATCH == 0:
             optimizer.step()
             scheduler.step()
             optimizer.zero_grad()
+    optimizer.zero_grad()
     return epoch_train_loss/len(data_loader)
 
 def eval_fn(data_loader, model, device):
