@@ -13,7 +13,7 @@ LINEAR_INPUT = 1024
 MAX_LEN = 128
 THRESHOLD_VALUE = 0.75
 TOKENIZER = transformers.BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=False)
-INFER_BATCH_SIZE = 4
+INFER_BATCH_SIZE = 1024
 
 class BERT_CLASSIFIER(nn.Module):
         def __init__(self):
@@ -104,7 +104,7 @@ def run():
             inference_dataset = BERTDataset(sent=df_inference.sentence.values)
 
         inference_dataloader = torch.utils.data.DataLoader(
-            inference_dataset, batch_size=INFER_BATCH_SIZE, num_workers=1
+            inference_dataset, batch_size=INFER_BATCH_SIZE, num_workers=8
         )   
     else:
         print(f"CSV file at {csv_file_loc} dosen't exist")
@@ -124,7 +124,7 @@ def run():
         sent_out , logit_score = infer_fn(inference_dataloader, model, device)
         logit_score = [i for b in logit_score for i in b]
         df_out = pd.DataFrame({'sentence':sent_out,'logit_score':logit_score})
-        df_out.to_csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc).split('.')[0] + '.csv'), index =False)
+        df_out.to_csv(os.path.join(os.path.dirname(csv_file_loc), 'out_' + os.path.basename(csv_file_loc).split('.')[0] + '_' + os.path.basename(model_location).split('.')[0] + '.csv'), index =False)
     else:
         print(f"Model path at {model_location} dosen't exist")
 

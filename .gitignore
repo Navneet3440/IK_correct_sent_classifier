@@ -4,3 +4,5 @@ __pycache__/
 *.bin
 *.out
 inputs/dump/*1095k.csv
+inputs/dump/*eval.csv
+inputs/dump
