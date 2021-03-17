@@ -5,3 +5,5 @@ __pycache__/
 *.out
 *eval.csv
 inputs/dump/*1095k.csv
+inputs/dump/out_*
+inputs/dump/*02.txt
